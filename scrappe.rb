@@ -17,7 +17,7 @@ select_list = wait.until {
 #### Extract all options from the select box
 options=select_list.find_elements(:tag_name => "option")
 
-#### Select the option "Volvo"
+#### Select the option
 options.each do |g|
   if g.text == "Accountable Health Partners"
   g.click
@@ -33,8 +33,8 @@ link = wait.until {
 link.click
 
 # Find text on the page by regexp
-puts "Test Passed: Page 1 Validated" if wait.until {
-    /Testing Web Applications with Ruby and Selenium WebDriver/.match(browser.page_source)
-}
+# puts "Test Passed: Page 1 Validated" if wait.until {
+#     /Testing Web Applications with Ruby and Selenium WebDriver/.match(browser.page_source)
+# }
  
 browser.quit
