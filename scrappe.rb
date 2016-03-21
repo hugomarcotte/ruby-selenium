@@ -1,5 +1,7 @@
 require 'rubygems'
 require 'selenium-webdriver'
+require 'pry'
+require 'csv'
  
 browser = Selenium::WebDriver.for :firefox
 browser.get 'https://www.excellusbcbs.com/wps/portal/xl/mbr/fnd/doctor/upstateny/'
@@ -32,9 +34,13 @@ link = wait.until {
 } 
 link.click
 
-# Find text on the page by regexp
-# puts "Test Passed: Page 1 Validated" if wait.until {
-#     /Testing Web Applications with Ruby and Selenium WebDriver/.match(browser.page_source)
-# }
- 
+# Parse results and write to CSV
+result_table = browser.find_elements(:css, "table#providerResults>tbody>tr.odd,table#providerResults>tbody>tr.even")
+CSV.open("accountable_health_partners.csv", "w") do |csv|
+	result_table.each do |row|
+		columns = row.find_elements(:css, "td.textResultsData")
+		csv << [columns[0].text, columns[1].text]
+	end
+end
+
 browser.quit
